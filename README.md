@@ -1,5 +1,11 @@
-# This is the Final Project for SI507 Winter2021
-This is a project related to python, SQL, web crawling, and user_interactive program
+# Project Overview
+  This is the final project for SI507 at University of Michigan for Winter2021. It is a project related to python, SQL, web crawling, and user interactive program. According to the users’ input of any type of food or name of restaurants or location of restaurants, this program will search results along with different features, such as ratings, reviews, address…etc. The results will be represented in the following form:
+                  •	Command line prompt
+                  •	YouTube videos
+                  •	Figures (scatter charts, bar charts, and radar charts)
+                  •	Google map (static/dynamic map)
+
+In addition, simultaneously, users are allowed to construct and expand their own SQL database, which allows them to either find or compare their desired restaurants and food at their ease.
 
 # Required API
   This program require four kinds of API keys
