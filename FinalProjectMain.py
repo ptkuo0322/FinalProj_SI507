@@ -12,6 +12,15 @@ import os
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 
+
+
+#################################
+##### Name: Po-Tsun Kuo      ####
+##### Uniqname: ptkuo        ####
+#################################
+
+
+
 # This section is for instruction of main difference option
 instruction = '''This program provides two way of search:
 ---------------------------------------------------------------------------------
@@ -1019,7 +1028,6 @@ def interactive_prompt():
                 query_string = query_name + query_location
                 result = path_decision(query_name, query_location)
                 array_output(result[query_string])
-                '''
                 time.sleep(1)
                 print("The search results with videos on YouTube would be the following")
                 time.sleep(1)
@@ -1045,10 +1053,11 @@ def interactive_prompt():
                 time.sleep(0.5)
                 draw_radarplot(sql_result)
                 time.sleep(0.5)
-'''
+
         elif decision =='exit':
             print("Thank you! Hope you find your desire restaruant! Goodbye!")
             exit()
+            
         else:
             print("Invalid Input! Please try again")
             time.sleep(0.5)
