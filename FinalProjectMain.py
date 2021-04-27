@@ -324,27 +324,27 @@ def path_decision(query_name, query_location):
         search_result = search_yelp(query_name, query_location)
         cache_dict = read_loc_cache()
         if query_string not in cache_dict.keys():
-            print("fetching data from API")
+            #print("fetching data from API")
             cache_dict[query_string] = search_result
             write_to_Loc_cache(cache_dict)
             ## write to csv
             filenameC = "loc.csv"
             write_to_csv(search_result,filenameC)
-        else:
-            print("readling from cache ")
+        #else:
+            #print("readling from cache ")
     else:
         query_string = query_name + query_location
         search_result = search_yelp(query_name, query_location)
         cache_dict = read_rest_cache()
         if query_string not in cache_dict.keys():
-            print("fetching data from API")
+            #print("fetching data from API")
             cache_dict[query_string] = search_result
             write_to_Food_cache(cache_dict)
             ## write to csv
             filenameC = "food.csv"
             write_to_csv(search_result,filenameC)
-        else:
-            print("readling from cache ")
+        #else:
+            #print("readling from cache ")
     update_database(query_name)
     return cache_dict
 
@@ -381,11 +381,11 @@ def yt_search(query_name, query_location, query_string):
         print(idx+1,'     ', ele[0])
     print("---------------------------------------------------")
     while True:
-        choose_restaurant = input("which restaurant do you want or skip this step ? Please enter the number or type in 'skip' ")
+        choose_restaurant = input("which restaurant are you interested in or wanna skip this step ? Please enter the number or type in 'skip' ")
         if choose_restaurant.strip(' ').lower() == 'skip':
             break
         elif choose_restaurant.strip(' ').lower().isnumeric() and 0 <= int(choose_restaurant.strip(' ').lower()) <= len(result[query_string]):
-            youtube_request = youtube.search().list(part='snippet',q=name_list[int(choose_restaurant)-1], maxResult=2) # maxResult= 0~ 50 default 5 maxResults="2"
+            youtube_request = youtube.search().list(part='snippet',q=name_list[int(choose_restaurant)-1]) # maxResult= 0~ 50 default 5 maxResults="2"
             youtube_response = youtube_request.execute()
             for idx in range(len(youtube_response)-2):
                 for ele in youtube_response['items'][idx]['snippet']['thumbnails']['default']['url']:
@@ -601,7 +601,7 @@ def go_direction(query_name, query_location, query_string):
     option_list = ['yes', 'no']
     dict_result = path_decision(query_name, query_location)
     while True:
-        usr_res = input("Would you like to direction to the location ? Yes or no?")
+        usr_res = input("Would you like to navigate to the location ? Yes or no?")
         if usr_res.strip(" ").lower() in option_list:
             if usr_res.strip(" ").lower() == 'yes':
                 for idx, ele in enumerate(dict_result[query_string]):
@@ -637,12 +637,11 @@ def draw_scaplot(alist):
     yval2 = []
     yval3 = []
     xval = combine_same_for_x(alist)
-    fig = make_subplots(rows=2, cols=3, subplot_titles=("Rate", "Review_count ", "price_range"))
+    fig = make_subplots(rows=1, cols=3, subplot_titles=("Rate", "Review_Count ", "Price_Range"))
     for ele in alist:
         yval1.append(ele[2])
         yval2.append(ele[3])
         yval3.append(ele[4])
-    print(yval3)
     fig.add_trace(go.Scatter(x=xval, y=yval1), row=1 , col=1)
     fig.add_trace(go.Scatter(x=xval, y=yval2), row=1 , col=2)
     fig.add_trace(go.Scatter(x=xval, y=yval3), row=1 , col=3)
@@ -660,17 +659,18 @@ def draw_barplot(alist):
     -------
     none
     '''
-    usr_input = input("which one do you want to comapre, Average rating = 1, Review_account =0")
     xval = []
     yval1 = []
     yval2 = []
     yval3 = []
-    fig = make_subplots(rows=2, cols=3, subplot_titles=("Rate", "Review_count ", "price_range"))
+    #xval = combine_same_for_x(alist)
+    fig = make_subplots(rows=1, cols=3, subplot_titles=("Rate", "Review_Count ", "Price_Range"))
     for ele in alist:
         xval.append(ele[0])
         yval1.append(ele[2])
         yval2.append(ele[3])
-        yval3.append(ele[4])
+        yval3.append(int(ele[4]))
+
     fig.add_trace(go.Bar(x=xval, y=yval1), row=1 , col=1)
     fig.add_trace(go.Bar(x=xval, y=yval2), row=1 , col=2)
     fig.add_trace(go.Bar(x=xval, y=yval3), row=1 , col=3)
@@ -939,9 +939,9 @@ def sql_query():
     AS F JOIN RESTAURANT_RESULT AS R  ON F.RefId = R.RefId 
     '''
     init_list = search_condition()
-    a_word = search_state()
     b_word = search_order()
     c_word = search_number()
+    a_word = search_state()
     init_list.append(b_word) 
     init_list.append(c_word) 
     init_list.append(a_word) 
@@ -1013,29 +1013,14 @@ def combine_same_for_x(alist):
         x coordinates for scattering plots
     '''
     final_xlist = []
+    i = 0
     for ele in alist:
         if ele[0] not in final_xlist:
             final_xlist.append(ele[0])
         elif ele[0] in final_xlist:
-            if ele[0] +"1" not in final_list:
-                final_xlist.append(ele[0]+"1")
-            elif ele[0] + "1" in final_xlist:
-                if ele[0] +"2" not in final_list:
-                    final_xlist.append(ele[0]+"2") 
-                elif ele[0] + "2" in final_xlist:
-                    if ele[0] +"3" not in final_list:
-                        final_xlist.append(ele[0]+"3") 
-                    elif ele[0] + "3" in final_xlist:
-                        if ele[0] +"4" not in final_list:
-                            final_xlist.append(ele[0]+"4") 
-                        elif ele[0] + "4" in final_xlist:
-                            if ele[0] +"5" not in final_list:
-                                final_xlist.append(ele[0]+"5") 
-                            elif ele[0] + "5" in final_xlist:
-                                if ele[0] +"6" not in final_list:
-                                    final_xlist.append(ele[0]+"6") 
-                                else:
-                                    final_xlist = final_xlist
+            res = ele[0]+ str(i)
+            final_xlist.append(res)
+            i = i + 1
     return final_xlist
 
 
