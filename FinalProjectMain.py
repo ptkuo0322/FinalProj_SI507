@@ -295,10 +295,10 @@ def update_database(query_name):
     conn.execute("PRAGMA foreign_keys = ON")
     c = conn.cursor()
     if len(query_name) == 0:
-        read_clients = pd.read_csv('/Users/pkuo/Desktop/SI507_finalProject/FInalcode/FinalProject/Final/loc.csv')
+        read_clients = pd.read_csv('//Users/pkuo/Desktop/SI507_finalProject/Finalcode/loc.csv')
         read_clients.to_sql('RESTAURANT_RESULT', conn, if_exists='replace', index = False) # if_exist, it will replace the old value, if not exist, it will append
     elif len(query_name) != 0:
-        read_clients = pd.read_csv('/Users/pkuo/Desktop/SI507_finalProject/FInalcode/FinalProject/Final/food.csv')
+        read_clients = pd.read_csv('/Users/pkuo/Desktop/SI507_finalProject/Finalcode/food.csv')
         read_clients.to_sql('FOOD_RESULT', conn, if_exists='replace', index = False) # if_exist, it will replace the old value, if not exist, it will append
 
 
@@ -435,16 +435,13 @@ def open_static_map(urlLink):
     '''
     
     while True:
-        ans = input("would you like to know the relative location on the Map? Yes or No or skip ? ")
+        ans = input("would you like to know the relative location on the Map? Yes or skip ? ")
         if ans.strip(" ").lower() == "yes":
             webbrowser.open_new(urlLink)
             break
-        elif ans.strip(" ").lower() == "no":
-            print("OK! Thank you, let's go to next step!!")
-            break
         elif ans.strip(" ").lower() == "skip":
-            print(("OK! Thank you, let's skip this step and go to next step!!"))
-            exit()
+            print("OK! Thank you, let's go to next page!!")
+            break
         else:
             print("invalid input! Plsase try again")
 
