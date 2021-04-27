@@ -27,15 +27,11 @@ This is a project related to python, SQL, web crawling, and user_interactive pro
       2. Users are required to decide the filtering condition, such as rating/reivew/price/numbers/order...etc
       3. Users could see the result in command line prompt, bar plots and radar charts.
 
-# Required Python Packages
-  1. sqlite3
-  2. pandas
-  3. plotly
-  4. googleapiclient.discovery
-
 # Optional DB Browser for SQLite
   It is additional tools for user to check the data in SQL database.
     1. Downlink:shorturl.at/xLRU1
     2. Documentation link for tutoial:shorturl.at/dlqtQ
+
+
 
 
