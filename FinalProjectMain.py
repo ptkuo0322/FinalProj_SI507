@@ -42,13 +42,14 @@ You are required to enter the following information:
     You would be able to see the following information:
 
 -------------------------------------------------------------------------------------------
-    -- The search results in text format
+    -- The search results in text format (command line prompt)
+    -- The search results in figure format (scattering chart)
     -- The related videos about search results on YouTube
     -- The location information of the search results on static google map
     -- The direction to the search results on google map
 -------------------------------------------------------------------------------------------
 
-    Also, you can type "exit" to quit anytime
+    Also, you can type "exit" to quit the program
 '''
 
 
@@ -68,7 +69,7 @@ You are required to enter the following information:
     -- The search results in text format
     -- The search results in figure format(bar chart, radar chart)
 -------------------------------------------------------------------------------------------
-    Also, you can type "exit" to quit anytime
+    Also, you can type "exit" to quit the program
 '''
 
 
@@ -619,6 +620,35 @@ def go_direction(query_name, query_location, query_string):
             print("invalid input")
 
 
+def draw_scaplot(alist):
+    ''' draw the scatter plot
+    
+    Parameters
+    ----------
+    alist
+        the list contains the information for scatter plots
+
+    Returns
+    -------
+    none
+    '''
+    xval = []
+    yval1 = []
+    yval2 = []
+    yval3 = []
+    xval = combine_same_for_x(alist)
+    fig = make_subplots(rows=2, cols=3, subplot_titles=("Rate", "Review_count ", "price_range"))
+    for ele in alist:
+        yval1.append(ele[2])
+        yval2.append(ele[3])
+        yval3.append(ele[4])
+    print(yval3)
+    fig.add_trace(go.Scatter(x=xval, y=yval1), row=1 , col=1)
+    fig.add_trace(go.Scatter(x=xval, y=yval2), row=1 , col=2)
+    fig.add_trace(go.Scatter(x=xval, y=yval3), row=1 , col=3)
+    fig.update_layout(showlegend=False)
+    fig.show()
+
 def draw_barplot(alist):
     ''' draw the bar plot
     
@@ -626,7 +656,6 @@ def draw_barplot(alist):
     ----------
     alist
         the list contains the information for bar plots
-
     Returns
     -------
     none
@@ -649,7 +678,6 @@ def draw_barplot(alist):
     fig.update_layout(showlegend=False)
     fig.show()
 
-
 def scale_convert(alist):
     ''' convert the data scale
     
@@ -664,7 +692,6 @@ def scale_convert(alist):
         the result list
     '''
     for ele in alist:
-        print(ele[4])
         if ele[3] >= 2000:
             ele[3] = 5
         elif 2000 > ele[3] >= 1800:
@@ -851,7 +878,7 @@ def search_number():
         the query word for SQL database
     '''
     instruction = '''How many data do you want to search to compare?
-    ranging for 1 to 20
+    ranging for 1 to 50
     Note: The results might be less than you sepcify owing to your requirement!
     '''
     print(instruction)
@@ -859,7 +886,7 @@ def search_number():
     '20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39',
     '40','41','42','43','44','45','46','47','48','49','50']
     while True:
-        usr_input = input("what's your choice? from 1 to 30 ")
+        usr_input = input("what's your choice? from 1 to 50 ")
         if usr_input in option_list:       
             query_word = usr_input
             break
@@ -971,6 +998,46 @@ def turn_to_list(alist):
         outer_list.append(inner_list)
     return outer_list
 
+def combine_same_for_x(alist):
+    ''' avoiding the same name being used as x coordinates in the scattering plots
+    
+    Parameters
+    ----------
+    alist
+        the original information
+        
+    Returns
+    -------
+    final_xlist
+        the element in the list is all different to others, which can be used for 
+        x coordinates for scattering plots
+    '''
+    final_xlist = []
+    for ele in alist:
+        if ele[0] not in final_xlist:
+            final_xlist.append(ele[0])
+        elif ele[0] in final_xlist:
+            if ele[0] +"1" not in final_list:
+                final_xlist.append(ele[0]+"1")
+            elif ele[0] + "1" in final_xlist:
+                if ele[0] +"2" not in final_list:
+                    final_xlist.append(ele[0]+"2") 
+                elif ele[0] + "2" in final_xlist:
+                    if ele[0] +"3" not in final_list:
+                        final_xlist.append(ele[0]+"3") 
+                    elif ele[0] + "3" in final_xlist:
+                        if ele[0] +"4" not in final_list:
+                            final_xlist.append(ele[0]+"4") 
+                        elif ele[0] + "4" in final_xlist:
+                            if ele[0] +"5" not in final_list:
+                                final_xlist.append(ele[0]+"5") 
+                            elif ele[0] + "5" in final_xlist:
+                                if ele[0] +"6" not in final_list:
+                                    final_xlist.append(ele[0]+"6") 
+                                else:
+                                    final_xlist = final_xlist
+    return final_xlist
+
 
 def sql_execute(query_term):
     ''' search the SQL database
@@ -1025,6 +1092,8 @@ def interactive_prompt():
                 query_string = query_name + query_location
                 result = path_decision(query_name, query_location)
                 array_output(result[query_string])
+                time.sleep(1)
+                draw_scaplot(result[query_string])
                 time.sleep(1)
                 print("The search results with videos on YouTube would be the following")
                 time.sleep(1)

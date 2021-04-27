@@ -10,11 +10,11 @@ c = conn.cursor()
 # Create table - YELP
 c.execute('''CREATE TABLE if NOT EXISTS FOOD_RESULT ([RestaurantName] text, 
             [PhoneNumber] text, [ReviewCount] REAL, [Rating] REAL, [Price] text, [Address] text, 
-            [Longitude] text, [Latitude] text, [UrlLink] text, [State] text,[RefId] PRIMARY KEY text )''')
+            [Longitude] text, [Latitude] text, [UrlLink] text, [State] text,[RefId] text PRIMARY KEY )''')
             
 c.execute('''CREATE TABLE if NOT EXISTS RESTAURANT_RESULT ([RestaurantName] text, 
             [PhoneNumber] text, [ReviewCount] REAL, [Rating] REAL, [Price] text, [Address] text, 
-            [Longitude] text, [Latitude] text, [UrlLink] text, [State] text, [RefId] PRIMARY KEY text )''')
+            [Longitude] text, [Latitude] text, [UrlLink] text, [State] text, [RefId] text PRIMARY KEY )''')
             
 
 conn.commit()

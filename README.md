@@ -19,7 +19,7 @@ This is a project related to python, SQL, web crawling, and user_interactive pro
   There are two following ways to interact with this program:
   1. Instant search on Yelp for specific type of food or restaurant
       1. Users are required to type in the FoodName/RestaurantName (optional) and Location(required).
-      2. Users would see the search results (name/phone/address/rating/totalreview/pricerange/...) in command line prompt.
+      2. Users would see the search results (name/phone/address/rating/totalreview/pricerange/...) in command line prompt/scattering plot.
       3. Users could decide to whether to open the relative videos on YouTube, mark the relative location of each restaurant
          on static google map and navigate themselves to chosen restaurant on google map.
   2. Search the Restaurants existing in the database based on Reviews/Rating/Price
