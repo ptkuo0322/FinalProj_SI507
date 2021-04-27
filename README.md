@@ -20,19 +20,23 @@ In addition, simultaneously, users are allowed to construct and expand their own
       2. Enabling Billing payment (In free trial for three months)
       3. Create new Credentials for API keys and Enable APIs and services for Maps Static API and 
          Directions API
+         
 
-# High Level Description
+# How to Run the Program
   There are two following ways to interact with this program:
   1. Instant search on Yelp for specific type of food or restaurant
       1. Users are required to type in the FoodName/RestaurantName (optional) and Location(required).
       2. Users would see the search results (name/phone/address/rating/totalreview/pricerange/...) in command line prompt/scattering  plot.
       3. Users could decide to whether to open the relative videos on YouTube, mark the relative location of each restaurant
          on static google map and navigate themselves to chosen restaurant on google map.
+      4. After finishing, program will be back to choice option and not to stopped until users enter “exit”
+     
   2. Search the Restaurants existing in the database based on Reviews/Rating/Price
       1. Users are required enter the state of USA in abbreviation.
       2. Users are required to decide the filtering condition, such as rating/reivew/price/numbers/order...etc
       3. Users could see the result in command line prompt, bar plots and radar charts.
-
+      4. After finishing, program will be back to choice option and not to stopped until users enter “exit”
+  
 # Optional DB Browser for SQLite
   It is additional tools for user to check the data in SQL database.
   1. Downlink:shorturl.at/xLRU1
