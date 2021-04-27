@@ -35,8 +35,8 @@ In addition, simultaneously, users are allowed to construct and expand their own
 
 # Optional DB Browser for SQLite
   It is additional tools for user to check the data in SQL database.
-    1. Downlink:shorturl.at/xLRU1
-    2. Documentation link for tutoial:shorturl.at/dlqtQ
+  1. Downlink:shorturl.at/xLRU1
+  2. Documentation link for tutoial:shorturl.at/dlqtQ
 
 
 
