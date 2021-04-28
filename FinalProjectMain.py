@@ -12,14 +12,11 @@ import os
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 
-
-
-#################################
-##### Name: Po-Tsun Kuo      ####
-##### Uniqname: ptkuo        ####
-#################################
-
-
+######################################
+##### Name: Po-Tsun Kuo           ####
+##### Uniqname: ptkuo             ####
+##### Project: Mixed API Crawler  ####
+######################################
 
 # This section is for instruction of main difference option
 instruction = '''This program provides two way of search:
@@ -380,6 +377,7 @@ def yt_search(query_name, query_location, query_string):
         idx1 = idx+1
         print(idx+1,'     ', ele[0])
     print("---------------------------------------------------")
+    time.sleep(2)
     while True:
         choose_restaurant = input("which restaurant are you interested in or wanna skip this step ? Please enter the number or type in 'skip' ")
         if choose_restaurant.strip(' ').lower() == 'skip':
@@ -388,7 +386,7 @@ def yt_search(query_name, query_location, query_string):
             youtube_request = youtube.search().list(part='snippet',q=name_list[int(choose_restaurant)-1]) # maxResult= 0~ 50 default 5 maxResults="2"
             youtube_response = youtube_request.execute()
             for idx in range(len(youtube_response)-2):
-                for ele in youtube_response['items'][idx]['snippet']['thumbnails']['default']['url']:
+                for ele in youtube_response['items'][idx]['snippet']['thumbnails']['default']['url']:    
                     link += ele
                 link_list.append(link.split('/')[-2])
             open_youtube(link_list)
@@ -571,7 +569,9 @@ def show_related_loc(query_name, query_location,query_string):
             if idx % 10 == 0:
                 print(f'This is shown in {idx1+1} page')
             print(symbol_list[idx], name_list[idx+(idx1*10)]) 
+            time.sleep(0.3)
         print("---------------------------------------------------")
+        time.sleep(1)
         URL = GOOGLEMAP_BASE_URL + "center=" + query_location + "&zoom=13" + "&size=1344x768&scale=2&key=" + MAP_API_KEY +"&maptype=roadmap" + query_word
         #print(URL)
         open_static_map(URL)
@@ -606,10 +606,13 @@ def go_direction(query_name, query_location, query_string):
             if usr_res.strip(" ").lower() == 'yes':
                 for idx, ele in enumerate(dict_result[query_string]):
                     print(idx+1, ele[0])
+                    time.sleep(0.2)
+                time.sleep(1)
                 usr_res1 = input("Which you would you like to direct to? Enter the number! ")
-                loc = dict_result[query_string][int(usr_res1)-1][7]
-                lat = dict_result[query_string][int(usr_res1)-1][6]
-                coord = str(loc) + "," + str(lat)
+                #loc = dict_result[query_string][int(usr_res1)-1][7]
+                #lat = dict_result[query_string][int(usr_res1)-1][6]
+                #coord = str(loc) + "," + str(lat)
+                coord = str(dict_result[query_string][int(usr_res1)-1][5])
                 result = map_url + "&query=" + coord
                 webbrowser.open_new(result)
                 break
@@ -637,14 +640,15 @@ def draw_scaplot(alist):
     yval2 = []
     yval3 = []
     xval = combine_same_for_x(alist)
-    fig = make_subplots(rows=1, cols=3, subplot_titles=("Rate", "Review_Count ", "Price_Range"))
+    fig = make_subplots(rows=1, cols=3, subplot_titles=("Rating", "Review_Count ", "Price_Range"))
     for ele in alist:
         yval1.append(ele[2])
         yval2.append(ele[3])
-        yval3.append(ele[4])
+        yval3.append(int(ele[4]))
     fig.add_trace(go.Scatter(x=xval, y=yval1), row=1 , col=1)
     fig.add_trace(go.Scatter(x=xval, y=yval2), row=1 , col=2)
     fig.add_trace(go.Scatter(x=xval, y=yval3), row=1 , col=3)
+    fig.update_yaxes(range=[0, 5], row=1, col=3)
     fig.update_layout(showlegend=False)
     fig.show()
 
@@ -664,7 +668,7 @@ def draw_barplot(alist):
     yval2 = []
     yval3 = []
     #xval = combine_same_for_x(alist)
-    fig = make_subplots(rows=1, cols=3, subplot_titles=("Rate", "Review_Count ", "Price_Range"))
+    fig = make_subplots(rows=1, cols=3, subplot_titles=("Rating", "Review_Count ", "Price_Range"))
     for ele in alist:
         xval.append(ele[0])
         yval1.append(ele[2])
@@ -757,12 +761,12 @@ def search_condition():
     '''
 
     instruction = '''What kind of filtering condition would you like?
-    1. filtered by Rating first and ordered by ReviewCount.
-    2. filtered by Rating first and ordered by Price.
-    3. filtered by ReviewCount first and ordered by Rating.
-    4. filtered by ReviewCount first and ordered by Price.
-    5. filtered by Price first and ordered by Rating.
-    6. filtered by Price first and ordered by ReviewCount.
+    1. filtered by Rating first and sorted by ReviewCount.
+    2. filtered by Rating first and sorted by Price.
+    3. filtered by ReviewCount first and sorted by Rating.
+    4. filtered by ReviewCount first and sorted by Price.
+    5. filtered by Price first and sorted by Rating.
+    6. filtered by Price first and sorted by ReviewCount.
     '''
     option_list = ['1','2','3','4','5','6']
     rating_list = ["0", '0.5','1.0','1.5','2.0','2.5','3.0','3.5','4.0','4.5','5.0']
@@ -975,6 +979,7 @@ def array_output(alist):
         outer_row.append(trimmed_row)
     for ele in outer_row:
         print('{:<16}{:<16}{:<16}{:<16}{:<16}'.format(ele[0],ele[1],ele[2],ele[3],ele[4]))
+        time.sleep(0.2)
 
 
 def turn_to_list(alist):
@@ -1066,7 +1071,7 @@ def interactive_prompt():
             print(instructionforone)
             #time.sleep(1)
 
-            query_name = input("please input the food/restaurant")
+            query_name = input("please input the name of food  ro name fo the restaurant")
             query_name = query_name.lower().strip(" ")
             query_location = input("please input the location")
             query_location = query_location.lower().strip(" ")
@@ -1076,10 +1081,18 @@ def interactive_prompt():
             else:
                 query_string = query_name + query_location
                 result = path_decision(query_name, query_location)
-                array_output(result[query_string])
-                time.sleep(1)
-                draw_scaplot(result[query_string])
-                time.sleep(1)
+                while True:
+                    ans = input("which form of results do you want to see? in text format = 1, in figure format = 2 ")
+                    if ans == '1':
+                        array_output(result[query_string])
+                        time.sleep(2)
+                        break
+                    elif ans == '2':
+                        draw_scaplot(result[query_string])
+                        time.sleep(1)
+                        break
+                    else:
+                        print("Invalid Input! Please try again")
                 print("The search results with videos on YouTube would be the following")
                 time.sleep(1)
                 yt_search(query_name, query_location, query_string)
@@ -1098,12 +1111,22 @@ def interactive_prompt():
             if sql_result == []:
                 print("No matching result. Please try again or expand the database first")
             else:
-                array_output(sql_result)
-                time.sleep(0.5)
-                draw_barplot(sql_result)
-                time.sleep(0.5)
-                draw_radarplot(sql_result)
-                time.sleep(0.5)
+                while True:
+                    ans = input("which form of results do you want to see? in text = 1, bar chart = 2, radar chart = 3 ")
+                    if ans == '1':
+                        array_output(sql_result)
+                        time.sleep(1)
+                        break
+                    elif ans == '2':
+                        draw_barplot(sql_result)
+                        time.sleep(1)
+                        break
+                    elif ans == '3':
+                        draw_radarplot(sql_result)
+                        time.sleep(1)
+                        break
+                    else:
+                        print("Invalid Input! Please try again")
 
         elif decision =='exit':
             print("Thank you! Hope you find your desire restaruant! Goodbye!")
